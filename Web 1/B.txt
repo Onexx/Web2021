@@ -1,0 +1,14 @@
+assets.codeforces.com
+codeforces.com
+codeforces.org
+connect.facebook.net
+fonts.googleapis.com
+fonts.gstatic.com
+mathjax.codeforces.org
+ssl.google-analytics.com
+st.codeforces.com
+st.vk.com
+static.xx.fbcdn.net
+top-fwz1.mail.ru
+vk.com
+www.facebook.com
