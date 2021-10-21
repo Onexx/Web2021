@@ -1,0 +1,28 @@
+.userInfo {
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+}
+
+.userInfo .userPicture{
+    float: right;
+    margin: 0.2em 0.2em 0 0;
+}
+
+.userInfo h1{
+    text-decoration: underline;
+    margin: 0.75rem;
+}
+
+.userArrow {
+    display: inline;
+    font-size: 1.75rem;
+}
+
+.disabledArrow{
+    color: grey;
+}
+
+.enabledArrow{
+    color: blue;
+    text-decoration: none;
+}

@@ -41,16 +41,21 @@ public class FreemarkerServlet extends HttpServlet {
         request.setCharacterEncoding(UTF_8);
         response.setCharacterEncoding(UTF_8);
 
+        String uri = "";
         Template template;
         try {
-            template = freemarkerConfiguration.getTemplate(URLDecoder.decode(request.getRequestURI(), UTF_8) + ".ftlh");
+            uri = URLDecoder.decode(request.getRequestURI(), UTF_8);
+            if (uri.isEmpty() || uri.equals("/")) {
+                uri = "/index";
+            }
+            template = freemarkerConfiguration.getTemplate(uri + ".ftlh");
         } catch (TemplateNotFoundException ignored) {
+            template = freemarkerConfiguration.getTemplate("misc/404.ftlh");
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            return;
         }
 
         Map<String, Object> data = getData(request);
-
+        data.put("uri", uri);
         response.setContentType("text/html");
         try {
             template.process(data, response.getWriter());
@@ -65,7 +70,15 @@ public class FreemarkerServlet extends HttpServlet {
 
         for (Map.Entry<String, String[]> e : request.getParameterMap().entrySet()) {
             if (e.getValue() != null && e.getValue().length == 1) {
-                data.put(e.getKey(), e.getValue()[0]);
+                if (e.getKey().endsWith("_id")) {
+                    try {
+                        data.put(e.getKey(), Long.parseLong(e.getValue()[0]));
+                    } catch (Exception ignored) {
+
+                    }
+                } else {
+                    data.put(e.getKey(), e.getValue()[0]);
+                }
             }
         }
 
