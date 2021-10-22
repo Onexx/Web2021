@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -44,11 +46,19 @@ public class FreemarkerServlet extends HttpServlet {
         String uri = "";
         Template template;
         try {
-            uri = URLDecoder.decode(request.getRequestURI(), UTF_8);
-            if (uri.isEmpty() || uri.equals("/")) {
-                uri = "/index";
+            try {
+                uri = new URI(URLDecoder.decode(request.getRequestURI(), UTF_8)).normalize().toString();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
-            template = freemarkerConfiguration.getTemplate(uri + ".ftlh");
+            if (uri.isEmpty() || uri.equals("/")) {
+                response.setStatus(HttpServletResponse.SC_TEMPORARY_REDIRECT);
+                response.sendRedirect("/index");
+                return;
+            }else{
+                template = freemarkerConfiguration.getTemplate(uri + ".ftlh");
+            }
         } catch (TemplateNotFoundException ignored) {
             template = freemarkerConfiguration.getTemplate("misc/404.ftlh");
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
