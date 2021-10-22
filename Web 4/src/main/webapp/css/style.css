@@ -49,6 +49,10 @@ header nav ul li {
     margin: 0;
 }
 
+header nav ul li .underlined {
+    border-bottom: 4px solid #3B5998;
+}
+
 header nav ul li a {
     text-decoration: none;
     font-weight: bold;
@@ -111,3 +115,4 @@ footer {
     border-top: var(--boder);
     text-align: center;
 }
+

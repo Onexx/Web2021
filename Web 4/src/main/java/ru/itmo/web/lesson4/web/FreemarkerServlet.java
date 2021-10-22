@@ -39,7 +39,7 @@ public class FreemarkerServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding(UTF_8);
         response.setCharacterEncoding(UTF_8);
 
@@ -49,14 +49,14 @@ public class FreemarkerServlet extends HttpServlet {
             try {
                 uri = new URI(URLDecoder.decode(request.getRequestURI(), UTF_8)).normalize().toString();
             } catch (URISyntaxException e) {
-                e.printStackTrace();
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                throw new ServletException("Couldn't decode URI '" + uri + "'.", e);
             }
             if (uri.isEmpty() || uri.equals("/")) {
                 response.setStatus(HttpServletResponse.SC_TEMPORARY_REDIRECT);
                 response.sendRedirect("/index");
                 return;
-            }else{
+            } else {
                 template = freemarkerConfiguration.getTemplate(uri + ".ftlh");
             }
         } catch (TemplateNotFoundException ignored) {

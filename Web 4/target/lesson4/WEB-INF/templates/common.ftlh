@@ -27,10 +27,9 @@
         <a href="#" class="logo"><img alt="Codeforces" title="Codeforces"
                                       src="/img/codeforces-logo-with-telegram.png"></a>
         <div class="languages">
-            <a href="#"><img alt="In English" title="In English"
-                             src="/img/gb.png"></a>
-            <a href="#"><img alt="In Russian" title="In Russian"
-                             src="/img/ru.png"></a>
+            <#list languages as item>
+                <a href="#"><img alt="${item.alt}" title="${item.title}" src="${item.src}"></a>
+            </#list>
         </div>
         <div class="enter-or-register-box">
             <#if user??>
@@ -44,15 +43,15 @@
             </#if>
         </div>
         <nav>
-            <#assign items=[
-            {"href": "/index", "name": "Home"},
-            {"href": "/misc/help", "name": "Help"},
-            {"href": "/contests", "name": "Contests"}
-            ]/>
+
             <ul>
-                <#list items as item>
+                <#list menu_links as item>
                     <li>
-                        <a href="${item.href}">${item.name}</a>
+                        <#if uri == item.href>
+                            <a class="underlined" href="${item.href}">${item.name}</a>
+                        <#else>
+                            <a href="${item.href}">${item.name}</a>
+                        </#if>
                     </li>
                 </#list>
             </ul>
