@@ -33,7 +33,7 @@
         </div>
         <div class="enter-or-register-box">
             <#if user??>
-                <@userlink user/>
+                <@userlink user true/>
                 |
                 <a href="/logout">Logout</a>
             <#else>
@@ -97,9 +97,24 @@
     </footer>
 </#macro>
 
-<#macro userlink user>
+<#macro userlink user nameOnly>
 <#-- @ftlvariable name="user" type="ru.itmo.web.lesson4.model.User" -->
-    <a href="/user?handle=${user.handle}">${user.name}</a>
+<#-- @ftlvariable name="nameOnly" type="Boolean" -->
+    <#if nameOnly == true>
+        <a href="/user?handle=${user.handle}">${user.name}</a>
+    <#else>
+        <#switch user.color.name()>
+            <#case "RED">
+                <a class="colored red" href="/user?handle=${user.handle}">${user.name}</a>
+                <#break>
+            <#case "GREEN">
+                <a class="colored green" href="/user?handle=${user.handle}">${user.name}</a>
+                <#break>
+            <#case "BLUE">
+                <a class="colored blue" href="/user?handle=${user.handle}">${user.name}</a>
+                <#break>
+        </#switch>
+    </#if>
 </#macro>
 
 <#function findBy items key value>

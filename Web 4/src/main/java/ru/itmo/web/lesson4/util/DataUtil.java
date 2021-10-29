@@ -1,5 +1,6 @@
 package ru.itmo.web.lesson4.util;
 
+import ru.itmo.web.lesson4.model.Color;
 import ru.itmo.web.lesson4.model.Language;
 import ru.itmo.web.lesson4.model.User;
 import ru.itmo.web.lesson4.model.Link;
@@ -11,10 +12,10 @@ import java.util.Map;
 
 public class DataUtil {
     private static final List<User> USERS = Arrays.asList(
-            new User(1, "MikeMirzayanov", "Mike Mirzayanov"),
-            new User(6, "pashka", "Pavel Mavrin"),
-            new User(9, "geranazarov555", "Georgiy Nazarov"),
-            new User(11, "tourist", "Gennady Korotkevich")
+            new User(1, "MikeMirzayanov", "Mike Mirzayanov", Color.GREEN),
+            new User(6, "pashka", "Pavel Mavrin", Color.BLUE),
+            new User(9, "geranazarov555", "Georgiy Nazarov", Color.GREEN),
+            new User(11, "tourist", "Gennady Korotkevich", Color.RED)
     );
 
     private static final List<Link> MENU_LINKS = Arrays.asList(

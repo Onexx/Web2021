@@ -5,7 +5,7 @@
         <#list users as u>
             <li>
                 <#if user?? && user.id == u.id>*</#if>
-                <@c.userlink u/>
+                <@c.userlink u false/>
             </li>
         </#list>
     </ul>

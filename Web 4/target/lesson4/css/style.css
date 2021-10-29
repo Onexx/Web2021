@@ -116,3 +116,20 @@ footer {
     text-align: center;
 }
 
+.colored{
+    text-decoration: none;
+    font-weight: bold;
+
+}
+
+ .red {
+    color: red;
+}
+
+ .green {
+    color: green;
+}
+
+ .blue {
+    color: blue;
+}
