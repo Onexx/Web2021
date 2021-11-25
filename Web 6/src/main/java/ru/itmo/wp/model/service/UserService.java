@@ -10,7 +10,9 @@ import ru.itmo.wp.model.repository.impl.UserRepositoryImpl;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-/** @noinspection UnstableApiUsage*/
+/**
+ * @noinspection UnstableApiUsage
+ */
 public class UserService {
     private final UserRepository userRepository = new UserRepositoryImpl();
     private static final String PASSWORD_SALT = "177d4b5f2e4f4edafa7404533973c04c513ac619";
@@ -32,7 +34,13 @@ public class UserService {
         if (Strings.isNullOrEmpty(user.getEmail())) {
             throw new ValidationException("Email is required");
         }
-        if (!user.getEmail().matches("^(.+)@(.+)$")) {
+
+        if (user.getEmail().length() > 255) {
+            throw new ValidationException("Email can't be longer than 255 characters");
+        }
+
+        if (user.getEmail().lastIndexOf("@") == -1 ||
+                user.getEmail().lastIndexOf("@") != user.getEmail().indexOf("@")) {
             throw new ValidationException("Invalid email");
         }
         if (userRepository.findByEmail(user.getEmail()) != null) {
@@ -48,7 +56,7 @@ public class UserService {
         if (password.length() > 12) {
             throw new ValidationException("Password can't be longer than 12 characters");
         }
-        if(!password.equals(passwordConfirmation)){
+        if (!password.equals(passwordConfirmation)) {
             throw new ValidationException("Password and confirmation didn't match");
         }
     }
@@ -68,7 +76,7 @@ public class UserService {
     public void validateEnter(String loginOrEmail, String password) throws ValidationException {
         User user = userRepository.findByLoginOrEmailAndPasswordSha(loginOrEmail, getPasswordSha(password));
         if (user == null) {
-            throw new ValidationException("Invalid login or password");
+            throw new ValidationException("Invalid login/email or password");
         }
     }
 
