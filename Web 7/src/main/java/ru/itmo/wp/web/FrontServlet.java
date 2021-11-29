@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -236,6 +237,13 @@ public class FrontServlet extends HttpServlet {
             );
         }
 
+        private static Route newIndexRoute(String action) {
+            return new Route(
+                    IndexPage.class.getName(),
+                    action
+            );
+        }
+
         private String getClassName() {
             return className;
         }
@@ -252,16 +260,19 @@ public class FrontServlet extends HttpServlet {
                 className.append('.');
                 className.append(s);
             });
-
+            String action = request.getParameter("action");
             if (className.toString().equals(BASE_PAGE_PACKAGE)) {
-                return newIndexRoute();
+                if(action==null) {
+                    return newIndexRoute();
+                }else{
+                    return newIndexRoute(action);
+                }
             }
 
             int lastPeriodPos = className.lastIndexOf(".");
             className.setCharAt(lastPeriodPos + 1, Character.toUpperCase(className.charAt(lastPeriodPos + 1)));
             className.append("Page");
 
-            String action = request.getParameter("action");
             if (Strings.isNullOrEmpty(action)) {
                 action = DEFAULT_ACTION;
             }
