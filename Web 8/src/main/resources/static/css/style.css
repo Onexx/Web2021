@@ -98,6 +98,8 @@ aside section {
     border: 1px solid var(--border-color);
     border-top-left-radius: var(--border-radius);
     border-top-right-radius: var(--border-radius);
+    margin-bottom: 1.5em;
+    word-break: break-all;
 }
 
 aside section .header {
@@ -113,6 +115,7 @@ aside section .header:before {
 
 aside section .body {
     padding: 1rem;
+    white-space: pre-line;
 }
 
 aside section .footer {

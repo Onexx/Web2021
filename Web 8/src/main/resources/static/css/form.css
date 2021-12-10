@@ -44,7 +44,7 @@
 }
 
 .form-box .error {
-    clear: both;
+    clear: left;
     color: var(--error-color);
     font-size: 0.75rem;
     margin-left: 12rem;

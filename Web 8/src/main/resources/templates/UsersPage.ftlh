@@ -20,11 +20,11 @@
                 </tr>
             <#else>
                 <#list users as user>
-                <tr>
-                    <td class="id">${user.id}</td>
-                    <td class="login">${user.login}</td>
-                    <td class="creationTime">${user.creationTime}</td>
-                </tr>
+                    <tr>
+                        <td class="id">${user.id}</td>
+                        <td class="login"><a href="/user/${user.id}" style="text-decoration: none"> ${user.login} </a></td>
+                        <td class="creationTime">${user.creationTime}</td>
+                    </tr>
                 </#list>
             </#if>
             </tbody>
