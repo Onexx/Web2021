@@ -7,8 +7,13 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
 
-/** @noinspection unused*/
+/**
+ * @noinspection unused
+ */
 @Entity
 @Table
 public class Post {
@@ -30,6 +35,18 @@ public class Post {
     @Size(min = 1, max = 65000)
     @Lob
     private String text;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    @OrderBy("creationTime ASC")
+    private List<Comment> comments;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "post_tag",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    @OrderBy("name ASC")
+    private List<Tag> tags;
 
     @CreationTimestamp
     private Date creationTime;
@@ -66,11 +83,33 @@ public class Post {
         this.text = text;
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
     public Date getCreationTime() {
         return creationTime;
     }
 
     public void setCreationTime(Date creationTime) {
         this.creationTime = creationTime;
+    }
+
+    public void addComment(Comment comment, User user) {
+        comment.setPost(this);
+        comment.setUser(user);
+        getComments().add(comment);
     }
 }

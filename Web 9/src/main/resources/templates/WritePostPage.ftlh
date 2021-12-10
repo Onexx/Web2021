@@ -27,6 +27,15 @@
                     </div>
                     <@c.error "post.text"/>
                 </div>
+                <div class="field">
+                    <div class="name">
+                        <label for="tags">Tags</label>
+                    </div>
+                    <div class="value">
+                        <input autofocus id="tags" name="tags" value="${post.tags!}"/>
+                    </div>
+                    <@c.error "post.tags"/>
+                </div>
                 <div class="button-field">
                     <input type="submit" value="Write">
                 </div>
