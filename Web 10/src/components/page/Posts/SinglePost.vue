@@ -23,13 +23,19 @@
                 <a href="#" @click.prevent="showPost(post)">{{ numberOfComments }}</a>
             </div>
         </div>
+        <div v-if="comments">
+            <SingleComment v-for="comment in comments" :comment="comment" :author="users[comment.userId].login" :key="comment.id"/>
+        </div>
     </article>
 </template>
 
 <script>
+
+import SingleComment from "@/components/page/SingleComment";
 export default {
     name: "SinglePost",
-    props: ["post", "users", "numberOfComments"],
+    components: {SingleComment},
+    props: ["post", "users", "num", "numberOfComments", "comments"],
     methods: {
         showPost: function (post) {
             this.$root.$emit("onShowPost", post);

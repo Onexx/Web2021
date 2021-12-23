@@ -38,7 +38,7 @@ export default {
         });
 
         this.$root.$on("onRegister", (login, name) => {
-            if (name === "") {
+            if (name.trim() === "") {
                 this.$root.$emit("onRegisterValidationError", "Name is required");
                 return;
             }
@@ -49,7 +49,7 @@ export default {
             }
 
             if (!(/^[a-z]+$/.test(login))) {
-                this.$root.$emit("onRegisterValidationError", "Only lowercase latin letters allowed");
+                this.$root.$emit("onRegisterValidationError", "Only lowercase latin letters allowed in login");
                 return;
             }
 

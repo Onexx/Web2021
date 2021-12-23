@@ -8,7 +8,7 @@
             <Register v-if="page === 'Register'"/>
             <WritePost v-if="page === 'WritePost'"/>
             <EditPost v-if="page === 'EditPost'"/>
-            <PostPage v-if="page === 'PostPage'" :post="post" :users="users" :comments="viewComments(post)"/>
+            <SinglePost v-if="page === 'PostPage'" :post="post" :users="users" :numberOfComments="numberOfComments.has(post.id) ? numberOfComments.get(post.id) : 0" :comments="viewComments(post)"/>
         </main>
     </div>
 </template>
@@ -21,7 +21,7 @@ import WritePost from "./page/WritePost";
 import EditPost from "./page/EditPost";
 import Register from "./page/Register";
 import Users from "./page/Users/Users"
-import PostPage from "@/components/page/PostPage";
+import SinglePost from "@/components/page/Posts/SinglePost";
 
 export default {
     name: "Middle",
@@ -32,7 +32,7 @@ export default {
         }
     },
     components: {
-        PostPage,
+        SinglePost,
         Users,
         Register,
         WritePost,

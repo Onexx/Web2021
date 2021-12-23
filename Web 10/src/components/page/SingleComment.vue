@@ -1,11 +1,11 @@
 <template>
-    <p>{{comment.id}} : {{comment.text}}</p>
+    <p>{{author}} : {{comment.text}}</p>
 </template>
 
 <script>
 export default {
     name: "SingleComment",
-    props: ["comment"]
+    props: ["comment", "author"]
 }
 </script>
 
