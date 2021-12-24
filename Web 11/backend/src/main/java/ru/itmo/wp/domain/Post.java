@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Post {
@@ -29,6 +30,11 @@ public class Post {
 
     @CreationTimestamp
     private Date creationTime;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    @OrderBy("creationTime ASC")
+    private List<Comment> comments;
+
 
     public long getId() {
         return id;
@@ -68,5 +74,19 @@ public class Post {
 
     public void setCreationTime(Date creationTime) {
         this.creationTime = creationTime;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public void addComment(Comment comment, User user) {
+        comment.setPost(this);
+        comment.setUser(user);
+        getComments().add(comment);
     }
 }

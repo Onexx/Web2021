@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <Header :user="user"/>
-        <Middle :posts="posts"/>
+        <Middle :posts="posts" :users="users"/>
         <Footer/>
     </div>
 </template>
@@ -22,7 +22,8 @@ export default {
     data: function () {
         return {
             user: null,
-            posts: []
+            posts: [],
+            users: []
         }
     },
     beforeMount() {
@@ -33,6 +34,10 @@ export default {
         axios.get("/api/1/posts").then(response => {
             this.posts = response.data;
         });
+
+        axios.get("/api/1/users").then(response => {
+            this.users = response.data;
+        });
     },
     beforeCreate() {
         this.$root.$on("onEnter", (login, password) => {
@@ -42,13 +47,32 @@ export default {
             }
 
             axios.post("/api/1/jwt", {
-                    login, password
+                login, password
             }).then(response => {
                 localStorage.setItem("jwt", response.data);
                 this.$root.$emit("onJwt", response.data);
             }).catch(error => {
                 this.$root.$emit("onEnterValidationError", error.response.data);
             });
+        });
+
+        this.$root.$on("onRegister", (login, name, password) => {
+            if (login.trim() === "") {
+                this.$root.$emit("onRegisterValidationError", "Login is required");
+                return;
+            }
+            if (password.trim() === "") {
+                this.$root.$emit("onRegisterValidationError", "Password is required");
+                return;
+            }
+            axios.post("/api/1/users", {login, name, password}).then(() => {
+                this.$root.$emit("onEnter", login, password);
+                axios.get("/api/1/users").then(response => {
+                    this.users = response.data;
+                });
+            }).catch(error => {
+                this.$root.$emit("onRegisterValidationError", error.response.data);
+            })
         });
 
         this.$root.$on("onJwt", (jwt) => {
@@ -69,6 +93,23 @@ export default {
             this.user = null;
         });
 
+        this.$root.$on("onWritePost", (title, text) => {
+            if (this.user) {
+                const jwt = localStorage.getItem("jwt");
+                alert(jwt);
+                axios.post("/api/1/posts", {title, text, jwt}).then(() => {
+                    axios.get("/api/1/posts").then(response => {
+                        this.posts = response.data;
+                    });
+                    this.$root.$emit("onChangePage", "Index");
+                }).catch(error => {
+                    this.$root.$emit("onWritePostValidationError", error.response.data);
+                })
+
+            } else {
+                this.$root.$emit("onWritePostValidationError", "No access");
+            }
+        });
     }
 }
 </script>
